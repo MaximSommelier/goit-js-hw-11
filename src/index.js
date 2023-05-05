@@ -1,6 +1,7 @@
 import Notiflix from "notiflix";
 import simpleLightbox from "simplelightbox";
 
+
 form = document.querySelector(".search-form");
 gallery = document.querySelector(".gallery");
 btnLoadMore = document.querySelector(".load-more");
@@ -33,8 +34,8 @@ btnLoadMore = document.querySelector(".load-more");
 //     })
 // }
 
-function createCommentMarkup({ webformatURL, largeImageURL, tags, like, views, comments, downloads }) {
-  return `<div class="photo-card">
+function createMarkup({ webformatURL, largeImageURL, tags, like, views, comments, downloads }) {
+  return (`<div class="photo-card">
   <img src="" alt="" loading="lazy" />
   <div class="info">
     <p class="info-item">
@@ -50,5 +51,8 @@ function createCommentMarkup({ webformatURL, largeImageURL, tags, like, views, c
       <b>Downloads</b>
     </p>
   </div>
-</div>`;
+</div>`)
+.join("");
+
+gallery.insertAdjacementHTML("beforeend", createMarkup)
 }
