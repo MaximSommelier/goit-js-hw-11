@@ -1,5 +1,6 @@
 import Notiflix from "notiflix";
 import simpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 form = document.querySelector(".search-form");
@@ -8,17 +9,17 @@ btnLoadMore = document.querySelector(".load-more");
 
 
 
-// function getPictures(pictureName, page) {
-//   const URL = `https://pixabay.com/api/?key=35723548-55cce6d92fe2b0376e8aa06a2&q="${pictureName}"
-//     &image_type="photo"&orientation="horizontal"&safesearch="true"&per_page=40&page=${page}`;
-//   return fetch(URL).then((resp) => {
-//     if (!resp.ok) {
-//       throw new Error(resp.statusText);
-//     }
-//     return resp.json();
-//   }).then(data => console.log(data));
-// }
-// getPictures("cat", 3);
+function getPictures(pictureName, page) {
+  const URL = `https://pixabay.com/api/?key=35723548-55cce6d92fe2b0376e8aa06a2&q="${pictureName}"
+    &image_type="photo"&orientation="horizontal"&safesearch="true"&per_page=40&page=${page}`;
+  return fetch(URL).then((resp) => {
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    return resp.json();
+  }).then(data => console.log(data));
+}
+getPictures("cat", 3);
 
 // let counter = 0;
 
