@@ -12,7 +12,7 @@ let page = 1;
 let counter = 0;
 
 form.addEventListener('submit',onSearch);
-// btnLoadMore.addEventListener('click',onClick);
+btnLoadMore.addEventListener('click',onClick);
 
 function onSearch(evt){
 evt.preventDefault();
@@ -20,20 +20,22 @@ gallery.insertAdjacementHTML = "";
 const pictureName = evt.target.value; 
 
 getFetch(pictureName)
-// createMarkup(resp)
-// btnLoadMore.hidden = false;
+createMarkup(resp)
+btnLoadMore.hidden = false;
 }
 
 function onBtnLoadMore(){
-  page +=1;
+  counter +=1;
+  if (counter !== resp.total)
+  {page += 1;
   getFetch(pictureName)
-  createMarkup(resp)
-
+  createMarkup(resp)}
+  btnLoadMore.hidden = true;
+  Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
 }
 
 
 function createMarkup(resp) {
-  counter +=1;
   const markup = resp.map(
     ({
     webformatURLtags,
@@ -88,4 +90,3 @@ return resp;
  }
 }
 
-getFetch("dog")
