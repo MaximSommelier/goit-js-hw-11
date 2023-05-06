@@ -6,44 +6,47 @@ import axios from 'axios';
 
 form = document.querySelector(".search-form");
 gallery = document.querySelector(".gallery");
-btnLoadMore = document.querySelector(".load-more");
-// const pictureName = evt.target.value.trim();
-const API_KEY = "35723548-55cce6d92fe2b0376e8aa06a2";
+btnLoadMore = document.querySelector(".js-load-more");
 
+let page = 1;
+let counter = 0;
 
+form.addEventListener('submit',onSearch);
+// btnLoadMore.addEventListener('click',onClick);
 
-function getPictures(pictureName, page) {
-  const URL = `https://pixabay.com/api/?key=${API_KEY}&q=${pictureName}
-    &image_type="photo"&orientation="horizontal"&safesearch="true"&per_page=40&page=${page}`;
-  return fetch(URL).then((resp) => {
-    if (!resp.ok) {
-      throw new Error(resp.statusText);
-    }
-    return resp.json();
-  }).then(data => console.log(data));
+function onSearch(evt){
+evt.preventDefault();
+gallery.insertAdjacementHTML = "";
+const pictureName = evt.target.value; 
+
+getFetch(pictureName)
+// createMarkup(resp)
+// btnLoadMore.hidden = false;
 }
-getPictures("cat", 3);
 
-// let counter = 0;
+function onBtnLoadMore(){
+  page +=1;
+  getFetch(pictureName)
+  createMarkup(resp)
 
-// function createMarkup(arr){
-//     return arr.filter(item => {
-//         counter +=1
-//         if(counter > 500){
-//             return false
-//         }
+}
 
-//         return `li`
 
-//     })
-// }
-
-function createMarkup({ webformatURL, largeImageURL, tags, like, views, comments, downloads }) {
-  return (`<div class="photo-card">
-  <img src="${largeImageURL}" alt="${webformatURLtags}" loading="lazy" />
+function createMarkup(resp) {
+  counter +=1;
+  const markup = resp.map(
+    ({
+    webformatURLtags,
+    tags,   
+    likes,
+    views,
+    comments,
+    downloads,
+  }) => `<div class="photo-card">
+  <img src="${webformatURLtags}" alt="${tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>Likes</b>:${like}
+      <b>Likes</b>:${likes}
     </p>
     <p class="info-item">
       <b>Views</b>:${views}
@@ -55,8 +58,34 @@ function createMarkup({ webformatURL, largeImageURL, tags, like, views, comments
       <b>Downloads</b>:${downloads}
     </p>
   </div>
-</div>`)
+</div>`
+)
 .join("");
 
-gallery.insertAdjacementHTML("beforeend", createMarkup)
+gallery.insertAdjacementHTML("beforeend", markup)
 }
+
+
+async function getFetch(pictureName){
+const BASE_URL = "https://pixabay.com/api/";
+const API_KEY = "35723548-55cce6d92fe2b0376e8aa06a2";
+const queryParams = new URLSearchParams({
+  key: API_KEY,
+  q: pictureName,
+  image_type: 'photo',
+  orientation: 'horizontal',
+  per_page: 40,
+  page: `${page}`,
+  safesearch: true,
+});
+  
+try{
+const resp = await axios.get(`${BASE_URL}?${queryParams}`);
+return resp;
+
+} catch(err){
+  Notiflix.Notify.info(err.message);
+ }
+}
+
+getFetch("dog")
