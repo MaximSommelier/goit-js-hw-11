@@ -6,37 +6,39 @@ import axios from 'axios';
 
 form = document.querySelector(".search-form");
 gallery = document.querySelector(".gallery");
-btnLoadMore = document.querySelector(".js-load-more");
+btnLoadMore = document.querySelector(".load-more");
 
 let page = 1;
 let counter = 0;
 
 form.addEventListener('submit',onSearch);
-btnLoadMore.addEventListener('click',onClick);
 
 function onSearch(evt){
 evt.preventDefault();
 gallery.insertAdjacementHTML = "";
 const pictureName = evt.target.value; 
 
-getFetch(pictureName)
-createMarkup(resp)
+const picture = getFetch(pictureName)
+createMarkup(picture)
 btnLoadMore.hidden = false;
 }
 
 function onBtnLoadMore(){
+  btnloadMore.addEventListener('click',onClick);
   counter +=1;
+
   if (counter !== resp.total)
   {page += 1;
-  getFetch(pictureName)
-  createMarkup(resp)}
+  const picture = getFetch(pictureName)
+  createMarkup(picture)}
+
   btnLoadMore.hidden = true;
   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
 }
 
 
-function createMarkup(resp) {
-  const markup = resp.map(
+function createMarkup(data) {
+  const markup = data.hits.map(
     ({
     webformatURLtags,
     tags,   
@@ -65,6 +67,10 @@ function createMarkup(resp) {
 .join("");
 
 gallery.insertAdjacementHTML("beforeend", markup)
+if (data.hits.length < 40) {
+  btnLoadMore.hidden = true;
+  Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+} else { btnLoadMore.hidden = false; }
 }
 
 
@@ -73,7 +79,7 @@ const BASE_URL = "https://pixabay.com/api/";
 const API_KEY = "35723548-55cce6d92fe2b0376e8aa06a2";
 const queryParams = new URLSearchParams({
   key: API_KEY,
-  q: pictureName,
+  q: `${pictureName}`,
   image_type: 'photo',
   orientation: 'horizontal',
   per_page: 40,
@@ -83,10 +89,13 @@ const queryParams = new URLSearchParams({
   
 try{
 const resp = await axios.get(`${BASE_URL}?${queryParams}`);
-return resp;
+const {data} = resp;
+return data;
 
 } catch(err){
   Notiflix.Notify.info(err.message);
  }
 }
+
+
 
