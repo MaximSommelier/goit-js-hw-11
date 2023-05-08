@@ -53,10 +53,11 @@ async function onSearch(evt){
 
   try{
   const {hits} = await getFetch(pictureName);
-  createMarkup(hits);
+
   if (hits.length === 0) {
     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
   }
+  createMarkup(hits);
   } catch (error){
 console.log(error);
   }
