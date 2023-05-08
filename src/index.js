@@ -4,9 +4,9 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import axios from 'axios';
 
 
-form = document.querySelector("#search-form");
-gallery = document.querySelector(".gallery");
-btnLoadMore = document.querySelector(".load-more");
+const form = document.querySelector("#search-form");
+const gallery = document.querySelector(".gallery");
+const btnLoadMore = document.querySelector(".load-more");
 
 btnLoadMore.addEventListener('click',onBtnLoadMore);
 form.addEventListener('submit',onSearch);
