@@ -68,9 +68,6 @@ async function onBtnLoadMore(evt){
   try{
     const {hits} = await getFetch(pictureName);
     createMarkup(hits);
-    if (hits.length === 0) {
-      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-    }
     } catch (error){
   console.log(error);
     }
@@ -110,10 +107,10 @@ function createMarkup(data) {
 
 gallery.insertAdjacentHTML("beforeend", markup);
 
-if (data.totalHits === 500) {
-  btnLoadMore.hidden = true;
-  Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-} else { btnLoadMore.hidden = false; }
+// if (data.totalHits === 500) {
+//   btnLoadMore.hidden = true;
+//   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+// } else { btnLoadMore.hidden = false; }
 }
 
 
