@@ -38,6 +38,7 @@ let pictureName = '';
 
 async function onSearch(evt){
   evt.preventDefault();
+  btnLoadMore.hidden = true;
   gallery.innerHTML = "";
   const pictureName = evt.target.elements.searchQuery.value.trim(); 
   
