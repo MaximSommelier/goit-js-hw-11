@@ -14,27 +14,52 @@ form.addEventListener('submit',onSearch);
 let page = 1;
 let pictureName = '';
 
+// function onSearch(evt){
+// evt.preventDefault();
+// gallery.innerHTML = "";
+// const pictureName = evt.target.elements.searchQuery.value.trim(); 
+
+//  if (!pictureName){
+//   gallery.innerHTML = "";
+//   btnLoadMore.hidden = true;
+//   return
+//  }
+// console.log(pictureName);
+
+
+// getFetch(pictureName).then(({hits}) => createMarkup(hits));
+
+// // if (pictures.length === 0) {
+// //     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+// //   }
+
+// btnLoadMore.hidden = false;
+// }
+
 async function onSearch(evt){
-evt.preventDefault();
-gallery.innerHTML = "";
-const pictureName = evt.target.elements.searchQuery.value.trim(); 
-
- if (!pictureName){
+  evt.preventDefault();
   gallery.innerHTML = "";
-  btnLoadMore.hidden = true;
-  return
- }
-console.log(pictureName);
-
-
-getFetch(pictureName).then(({hits}) => createMarkup(hits));
-
-// if (pictures.hits.length === 0) {
-//     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-//   }
-
-btnLoadMore.hidden = false;
-}
+  const pictureName = evt.target.elements.searchQuery.value.trim(); 
+  
+   if (!pictureName){
+    gallery.innerHTML = "";
+    btnLoadMore.hidden = true;
+    return
+   }
+  console.log(pictureName);
+  try{
+  const {hits} = await getFetch(pictureName);
+  createMarkup(hits);
+  } catch (error){
+console.log(error);
+  }
+  
+  // if (pictures.length === 0) {
+  //     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+  //   }
+  
+  btnLoadMore.hidden = false;
+  }
 
 function onBtnLoadMore(evt){
   page += 1;
@@ -99,6 +124,7 @@ try{
 const resp = await axios.get(`${BASE_URL}?${queryParams}`);
 const pictures = resp.data;
 return pictures;
+console.dir(pictures);
 } catch(err){
   Notiflix.Notify.info(err.message);
  }
