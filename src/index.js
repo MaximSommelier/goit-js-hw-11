@@ -71,8 +71,6 @@ async function onBtnLoadMore(evt){
     } catch (error){
   console.log(error);
     }
-  
-  btnLoadMore.hidden = true;
 }
 
 
@@ -107,10 +105,10 @@ function createMarkup(data) {
 
 gallery.insertAdjacentHTML("beforeend", markup);
 
-// if (data.totalHits === 500) {
-//   btnLoadMore.hidden = true;
-//   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-// } else { btnLoadMore.hidden = false; }
+if (data.totalHits === 500) {
+  btnLoadMore.hidden = true;
+  Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+} else { btnLoadMore.hidden = false; }
 }
 
 
