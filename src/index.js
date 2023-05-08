@@ -33,8 +33,8 @@ btnLoadMore.hidden = false;
 function onBtnLoadMore(evt){
   counter +=1;
   page += 1;
-  const pictureName = evt.target.elements.searchQuery.value.trim(); 
-  const pictures = getFetch(pictureName);
+  // const pictureName = evt.target.elements.searchQuery.value.trim(); 
+  const pictures = getFetch();
   getFetch(pictureName).then(pictures => createMarkup(pictures));
   // if (counter !== resp.total)
   // {page += 1;
