@@ -14,28 +14,6 @@ form.addEventListener('submit',onSearch);
 let page = 1;
 let pictureName = '';
 
-// function onSearch(evt){
-// evt.preventDefault();
-// gallery.innerHTML = "";
-// const pictureName = evt.target.elements.searchQuery.value.trim(); 
-
-//  if (!pictureName){
-//   gallery.innerHTML = "";
-//   btnLoadMore.hidden = true;
-//   return
-//  }
-// console.log(pictureName);
-
-
-// getFetch(pictureName).then(({hits}) => createMarkup(hits));
-
-// // if (pictures.length === 0) {
-// //     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-// //   }
-
-// btnLoadMore.hidden = false;
-// }
-
 async function onSearch(evt){
   evt.preventDefault();
   page = 1;
