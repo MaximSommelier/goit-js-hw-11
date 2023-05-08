@@ -63,9 +63,17 @@ console.log(error);
   btnLoadMore.hidden = false;
   }
 
-function onBtnLoadMore(evt){
+async function onBtnLoadMore(evt){
   page += 1;
-  getFetch(pictureName).then(({hits}) => createMarkup(hits))
+  try{
+    const {hits} = await getFetch(pictureName);
+    createMarkup(hits);
+    if (hits.length === 0) {
+      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+    }
+    } catch (error){
+  console.log(error);
+    }
   
   btnLoadMore.hidden = true;
 }
