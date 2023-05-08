@@ -101,7 +101,12 @@ try{
 const resp = await axios.get(`${BASE_URL}?${queryParams}`);
 const pictures = resp.data;
 return pictures;
+if (!resp){ 
+  return }
 
+if (data.hits.length === 0) {
+    Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+  }
 } catch(err){
   Notiflix.Notify.info(err.message);
  }
