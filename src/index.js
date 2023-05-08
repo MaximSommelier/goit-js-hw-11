@@ -32,14 +32,13 @@ btnLoadMore.hidden = false;
 
 function onBtnLoadMore(evt){
   counter +=1;
-  page += 1;
-  // const pictureName = evt.target.elements.searchQuery.value.trim(); 
+  
+  if (counter !== resp.totalHits)
+  {page += 1;
+  const pictureName = evt.target.elements.searchQuery.value.trim(); 
   const pictures = getFetch();
-  getFetch(pictureName).then(pictures => createMarkup(pictures));
-  // if (counter !== resp.total)
-  // {page += 1;
-  // getFetch(pictureName).then(pictures => createMarkup(pictures))
-  // }
+  getFetch(pictureName).then(pictures => createMarkup(pictures))
+  }
 
   btnLoadMore.hidden = true;
   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
