@@ -12,7 +12,7 @@ btnLoadMore.addEventListener('click',onBtnLoadMore);
 form.addEventListener('submit',onSearch);
 
 let page = 1;
-let counter = 0;
+let pictureName = '';
 
 function onSearch(evt){
 evt.preventDefault();
@@ -20,33 +20,31 @@ gallery.innerHTML = "";
 const pictureName = evt.target.elements.searchQuery.value.trim(); 
 
  if (pictureName === "" || !pictureName){
+  gallery.innerHTML = "";
+  btnLoadMore.hidden = true;
   return
  }
 console.log(pictureName);
-const pictures = getFetch(pictureName);
 
-getFetch(pictureName).then(pictures => createMarkup(pictures));
-console.log(pictures);
+getFetch(pictureName).then(({hits}) => createMarkup(hits));
+
+// if (pictures.length === 0) {
+//     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+//   }
+
 btnLoadMore.hidden = false;
 }
 
 function onBtnLoadMore(evt){
-  counter +=1;
+  page += 1;
+  getFetch(pictureName).then(({hits}) => createMarkup(hits))
   
-  if (counter !== resp.totalHits)
-  {page += 1;
-  const pictureName = evt.target.elements.searchQuery.value.trim(); 
-  const pictures = getFetch();
-  getFetch(pictureName).then(pictures => createMarkup(pictures))
-  }
-
   btnLoadMore.hidden = true;
-  Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
 }
 
 
 function createMarkup(data) {
-  const markup = data.hits.map(
+  const markup = data.map(
     ({
     webformatURL,
     tags,   
@@ -76,7 +74,7 @@ function createMarkup(data) {
 
 gallery.insertAdjacentHTML("beforeend", markup);
 
-if (data.hits.length < 40) {
+if (data.length < 40) {
   btnLoadMore.hidden = true;
   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
 } else { btnLoadMore.hidden = false; }
@@ -100,12 +98,6 @@ try{
 const resp = await axios.get(`${BASE_URL}?${queryParams}`);
 const pictures = resp.data;
 return pictures;
-if (!resp){ 
-  return }
-
-if (data.hits.length === 0) {
-    Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-  }
 } catch(err){
   Notiflix.Notify.info(err.message);
  }
